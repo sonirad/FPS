@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CellVisualizer : MonoBehaviour
 {
+    [Tooltip("셀 한변의 크기")]
     public const float cellSize = 10f;
+
     GameObject[] walls;
 
     private void Awake()

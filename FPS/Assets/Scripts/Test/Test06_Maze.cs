@@ -8,10 +8,10 @@ public class Test06_Maze : TestBase
     [Header("¼¿")]
     public Direction pathData;
     public CellVisualizer cellVisualizer;
-    public MazelVisualizer backTracking;
     [Header("¹Ì·Î")]
     public int width = 5;
     public int height = 5;
+    public MazelVisualizer backTracking;
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {

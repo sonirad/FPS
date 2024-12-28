@@ -19,8 +19,6 @@ public class BackTracking : Maze
 
     protected override void OnSpecificAlgorithExcute()
     {
-        base.OnSpecificAlgorithExcute();
-
         // 재구적 백트래킹 알고리즘(Recurcive BackTracking Algorithm)
 
         for (int y = 0; y < width; y++)
@@ -63,6 +61,7 @@ public class BackTracking : Maze
                 if (!neighbor.visited)     // 방문한 적이 있는지 확인(방문하지 않았어야 함)
                 {
                     neighbor.visited = true;     // 방문했다고 표시
+
                     ConnectPath(current, neighbor);      // 두 셀간에 길을 연결
                     MakeRecursive(neighbor.X, neighbor.Y);
                 }
