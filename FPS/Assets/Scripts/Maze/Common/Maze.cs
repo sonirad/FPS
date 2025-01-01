@@ -8,8 +8,11 @@ public class Maze
     protected int width;
     protected int height;
 
+    [Tooltip("미로의 셀 묶음")]
     public Cell[] Cells => cells;
+    [Tooltip("미로의 가로 길이")]
     public int Width => width;
+    [Tooltip("미로의 세로 길이")]
     public int Height => height;
 
     /// <summary>
@@ -31,6 +34,8 @@ public class Maze
         cells = new Cell[Width * Height];
 
         OnSpecificAlgorithExcute();    // 각 알로리즘 별 코드 실행
+
+        Debug.Log("미로 만들기 완료");
     }
 
     /// <summary>
