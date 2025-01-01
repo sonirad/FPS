@@ -26,6 +26,8 @@ public class MazelVisualizer : MonoBehaviour
             CellVisualizer cellVisualizer = obj.GetComponent<CellVisualizer>();
 
             cellVisualizer.RefreshWall(cell.Path);
+
+            Debug.Log("미로 그리기 완");
         }
     }
 
@@ -41,6 +43,8 @@ public class MazelVisualizer : MonoBehaviour
             child.SetParent(null);
             Destroy(child.gameObject);
         }
+
+        Debug.Log("미로 비주얼라이저 초기화");
     }
 
     /// <summary>
