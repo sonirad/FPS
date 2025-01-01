@@ -21,6 +21,9 @@ public class Eller : Maze
     [Tooltip("일반적으로 이웃 셀과 합쳐질 확률")]
     [Range(0f, 1f)]
     public float mergeChance = 0.7f;
+    [Tooltip("집합당 아래쪽으로 벽을 제거할 확률")]
+    [Range(0f, 1f)]
+    public float southOpenChange = 0.5f;
 
     protected override void OnSpecificAlgorithExcute()
     {
@@ -93,7 +96,39 @@ public class Eller : Maze
     /// <param name="chance">합쳐질 확률</param>
     private void MergeAdjacent(EllerCell[] line, float chance)
     {
+        // 옆칸끼리 합치기
+        // 서로 집합이 다르면 랜덤하게 벽을 제거하고 같은 집합으로 만든다.(같은 줄에 있는 같은 종류의 셀이 한번에 바뀐다.)
+        // 소러 같은 집합이면 패스
 
+        int count = 1;          // 한줄이 모두 같은 집합에 속하는 것을 방지하기 위한 카운터
+        int w = Width - 1;        // 미리 계산
+
+        for (int x = 0; x < w; x++)
+        {
+            if (count < w && line[x].setGroup != line[x + 1].setGroup && Random.value < chance)
+            {
+                // count가 width보다 작다 = 한줄이 모두 같은 집합에 속하지 않는다.
+                // x와 x + 1번째의 셀이 같은 그룹에 속하지 않는다.
+                // 설정한 확률을 통과했다.
+
+                line[x].MakePath(Direction.Eask);      // 서로 같은 길 만들기
+                line[x + 1].MakePath(Direction.West);
+
+                int targetGroup = line[x + 1].setGroup;       // x + 1번째의 집합을 저장해 놓기
+
+                line[x + 1].setGroup = line[x].setGroup;     // x + 1번째를 x번째의 집합에 속하게 만들기
+
+                for (int i = x + 2; i < Width; i++)
+                {
+                    if (line[i].setGroup == targetGroup)        // x + 1번째와 같은 집합에 속한 셀들을 x번째의 집합에 속하게 만들기
+                    {
+                        line[i].setGroup = line[x].setGroup;
+                    }
+                }
+
+                count++;       // 카운트 증가
+            }
+        }
     }
 
     /// <summary>
@@ -102,7 +137,44 @@ public class Eller : Maze
     /// <param name="line">작업 처리를 할 줄</param>
     private void RemoveSouthWall(EllerCell[] line)
     {
+        // 집합별로 리스트 만들기
 
+        // 키 : 집합번호, 값 : 이 줄의 셀 중 키 값에 해당하는 집합에 포함되는 셀의 x 좌표
+        Dictionary<int, List<int>> setListDic = new Dictionary<int, List<int>>();
+
+        for (int x = 0; x < Width; x++)
+        {
+            int key = line[x].setGroup;
+
+            if (!setListDic.ContainsKey(key))
+            {
+                setListDic[key] = new List<int>();
+            }
+
+            setListDic[key].Add(x);
+        }
+
+        // 집합별 리스트를 배열로 변환하고, 집합별로 남쪽에 길 만들기
+        foreach (int key in setListDic.Keys)
+        {
+            int[] array = setListDic[key].ToArray();      // 배열로 변환하고
+
+            Util.Shuffle(array);            // 순서 섞기(랜덤하게 길 만들기 위해)
+
+            int index = array[0];          // 첫번째는 무조건 아래쪽으로 길 만들기
+
+            line[index].MakePath(Direction.South);
+
+            int length = array.Length;
+
+            for (int i = 1; i < length; i++)         // 남은 것들은 확률에 따라 아래쪽에 길 만들기
+            {
+                if (Random.value < southOpenChange)
+                {
+                    line[array[i]].MakePath(Direction.South);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -111,6 +183,11 @@ public class Eller : Maze
     /// <param name="line">저장할 줄</param>
     private void WriteLine(EllerCell[] line)
     {
+        int index = GridToIndex(0, line[0].Y);
 
+        for (int x = 0; x < Width; x++)
+        {
+            cells[index + x] = line[x];
+        }
     }
 }

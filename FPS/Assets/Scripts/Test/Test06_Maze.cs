@@ -11,7 +11,9 @@ public class Test06_Maze : TestBase
     [Header("¹Ì·Î")]
     public int width = 5;
     public int height = 5;
+
     public MazelVisualizer backTracking;
+    public MazelVisualizer eller;
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
@@ -31,5 +33,15 @@ public class Test06_Maze : TestBase
 
         maze.MakeMaze(width, height, seed);
         backTracking.Draw(maze);
+    }
+
+    protected override void OnTest4(InputAction.CallbackContext context)
+    {
+        eller.Clear();
+
+        Eller maze = new Eller();
+
+        maze.MakeMaze(width, height, seed);
+        eller.Draw(maze);
     }
 }
