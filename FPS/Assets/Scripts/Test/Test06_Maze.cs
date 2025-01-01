@@ -14,6 +14,7 @@ public class Test06_Maze : TestBase
 
     public MazelVisualizer backTracking;
     public MazelVisualizer eller;
+    public MazelVisualizer wilson;
 
     protected override void OnTest1(InputAction.CallbackContext context)
     {
@@ -43,5 +44,15 @@ public class Test06_Maze : TestBase
 
         maze.MakeMaze(width, height, seed);
         eller.Draw(maze);
+    }
+
+    protected override void OnTest5(InputAction.CallbackContext context)
+    {
+        wilson.Clear();
+
+        Wilson maze = new Wilson();
+
+        maze.MakeMaze(width, height, seed);
+        wilson.Draw(maze);
     }
 }
