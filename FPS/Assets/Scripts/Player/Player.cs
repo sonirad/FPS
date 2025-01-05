@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private StarterAssetsInputs starterAssets;
     [Tooltip("총만 촬영하는 카메라가 있는 게임 오브젝트")]
     private GameObject gunCamera;
+    [Tooltip("총은 카메라 기준으로 발사")]
+    public Transform FireTransform => transform.GetChild(0);    // 카메라 루트
 
     private void Awake()
     {
