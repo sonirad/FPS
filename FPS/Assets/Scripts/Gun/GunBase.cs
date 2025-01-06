@@ -73,20 +73,20 @@ public class GunBase : MonoBehaviour
     /// <summary>
     /// 총 발사
     /// </summary>
-    private void Fire()
+    private void Fire(bool isFireStart = true)
     {
         // 발사 가능하고 총알이 남아있으면
         if (isFireReady && BulletCount > 0)
         {
             // 총 발사
-            FireProcess();
+            FireProcess(isFireStart);
         }
     }
 
     /// <summary>
     /// 발사가 성공했을 때 실생할 기능들
     /// </summary>
-    protected virtual void FireProcess()
+    protected virtual void FireProcess(bool isFireStart = true)
     {
         // 계속 발사가 되지 않게 막기
         isFireReady = false;

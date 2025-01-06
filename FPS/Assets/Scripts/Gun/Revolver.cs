@@ -6,7 +6,7 @@ public class Revolver : GunBase
 {
     public float reloadDuration = 1.0f;
 
-    protected override void FireProcess()
+    protected override void FireProcess(bool isFireStart = true)
     {
         base.FireProcess();
 
