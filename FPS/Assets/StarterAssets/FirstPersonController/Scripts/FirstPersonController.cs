@@ -136,21 +136,24 @@ namespace StarterAssets
 		private void CameraRotation()
 		{
 			// if there is an input
-			if (_input.look.sqrMagnitude >= _threshold)
+			// if (_input.look.sqrMagnitude >= _threshold)             // 임계값 이상으로 움직일 때만 처리
 			{
-				//Don't multiply mouse input by Time.deltaTime
+				// 마우스를 사용할 때는 그대로 적용. 그 외 입력장치는 델타타입을 곱해서 적용.
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-				
-				_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
+
+                // _cinemachineTargetPitch : 카메라의 x축 회전(위아래)
+				// 마우스 위아래 움직임과 회전 속도에 따라 x축 회전할 정도 결정
+                _cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
+				// 마우스 좌우 움직임과 회전속도에 따라 y축 회전할 정도 결정
 				_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
 
-				// clamp our pitch rotation
+				// clamp로 최대 / 최소를 벗어나지 않게 하기
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-				// Update Cinemachine camera target pitch
+				// 위에서 계산된 pitch값을 기반으로 회전 설정
 				CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 
-				// rotate the player left and right
+				// 좌우 회전 추가 적용
 				transform.Rotate(Vector3.up * _rotationVelocity);
 			}
 		}
@@ -272,15 +275,46 @@ namespace StarterAssets
 		/// <summary>
 		/// 총기 반동 적용
 		/// </summary>
-		/// <param name="recoil"></param>
+		/// <param name="recoil">반동 정도</param>
 		public void FireRecoil(float recoil)
 		{
-
+			StartCoroutine(FireRecoilCoroutine(recoil));
 		}
 
 		private IEnumerator FireRecoilCoroutine(float recoil)
 		{
-			yield return null;
-		}
+			float curveProcess = 0.0f;      // 0 ~ 1 사이로 변화
+			float upTime = 0.05f;
+			float upMultiplier = 1 / upTime;         // 반복문 안에서 나누는 횟수를 줄이기 위함
+
+			while (curveProcess < 1)
+			{
+				float angel = -fireUp.Evaluate(curveProcess) * recoil;
+
+				_cinemachineTargetPitch += angel;
+				// curveProcess가 0 -> 1로 가는데 upTime초만큼 걸리게 하기
+				curveProcess += (Time.deltaTime * upMultiplier);
+
+				yield return null;
+
+            }
+
+			curveProcess = 0.0f;
+			float downTime = 0.2f;
+			// 반복문안에서 나눈는 횟수를 줄이기 위함
+			float downMultiplier = 1 / downTime;
+
+			while (curveProcess < 1)
+			{
+				// while 실행횟수가 down이 더 많기 때문에 줄이기 위해 (recoil * upTime) 곱함
+				float angle = fireDown.Evaluate(curveProcess) * recoil * (recoil * upTime);
+
+				_cinemachineTargetPitch += angle;
+				// curveProcess가 0 -> 1로 가는데 downMultiplier초 만큼 걸리게 하기
+				curveProcess += (Time.deltaTime * downMultiplier);
+
+                yield return null;
+            }
+        }
 	}
 }
