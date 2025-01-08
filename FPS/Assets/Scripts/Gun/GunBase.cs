@@ -86,6 +86,7 @@ public class GunBase : MonoBehaviour
     /// <summary>
     /// 발사가 성공했을 때 실생할 기능들
     /// </summary>
+    /// <param name="isFireStart">발사 입력이 들어오면 : t, 끝나면 : f</param>
     protected virtual void FireProcess(bool isFireStart = true)
     {
         // 계속 발사가 되지 않게 막기
@@ -170,7 +171,7 @@ public class GunBase : MonoBehaviour
     /// <summary>
     /// 발사 각 안으로 랜덤한 발사 방향 구하기
     /// </summary>
-    /// <returns></returns>
+    /// <returns>총알을 발사할 방향</returns>
     protected Vector3 GetFireDirection()
     {
         Vector3 result = fireTransform.forward;
@@ -184,7 +185,7 @@ public class GunBase : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    public void Test_Fire()
+    public void Test_Fire(bool isFireStart = true)
     {
         if (fireTransform == null)
         {
@@ -192,7 +193,7 @@ public class GunBase : MonoBehaviour
             Debug.Log("발사 준비");
         }
 
-        Fire();
+        Fire(isFireStart);
         Debug.Log("발사");
     }
 

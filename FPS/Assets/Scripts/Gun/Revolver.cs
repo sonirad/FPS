@@ -5,6 +5,7 @@ using UnityEngine;
 public class Revolver : GunBase
 {
     public float reloadDuration = 1.0f;
+    private bool isReloading = false;
 
     protected override void FireProcess(bool isFireStart = true)
     {
@@ -16,8 +17,38 @@ public class Revolver : GunBase
         FireRecoil();
     }
 
+    /// <summary>
+    /// 리로드 처리
+    /// </summary>
     public void ReLoad()
     {
+        // 리로딩 중 아닐 때만 실행
+        if (!isReloading)
+        {
+            // 리로딩 중이라고 표시
+            isReloading = true;
+            // 리로딩 중 총을 발사하는 것을 방지
+            isFireReady = false;
 
+            // 리로드 코루틴 실행
+            StartCoroutine(ReloadCoroutine());
+        }
+    }
+
+    /// <summary>
+    /// 리로딩 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ReloadCoroutine()
+    {
+        // 리로딩 시간만큼 기다린 후
+        yield return new WaitForSeconds(reloadDuration);
+
+        // 총 발사 가능하게 설정
+        isFireReady = true;
+        // 탄창 크기만큼 재장전
+        BulletCount = clipSize;
+        // 리로딩 종표 표시
+        isReloading = false;
     }
 }
