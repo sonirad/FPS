@@ -31,6 +31,14 @@ namespace StarterAssets
 		[Tooltip("줌 입력이 있을 때 실행되는 델리게이트(t : 확대될 때, f : 원상복구 될 때")]
 		public Action<bool> onZoom;
 
+		[Tooltip("플레이어")]
+		private Player player;
+
+        private void Awake()
+        {
+			player = GetComponent<Player>();
+        }
+
         private void Start()
         {
 			followCamera = GameManager.Instance.FollowCamera;
@@ -110,12 +118,15 @@ namespace StarterAssets
 
         public void OnFire(InputAction.CallbackContext context)
         {
-
+			player.GunFire(!context.canceled);
         }
 
         public void OnReload(InputAction.CallbackContext context)
         {
-
+			if (context.performed)
+			{
+				player.RevolverReload();
+			}
         }
 
 #if ENABLE_INPUT_SYSTEM

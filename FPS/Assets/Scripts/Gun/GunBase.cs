@@ -4,6 +4,13 @@ using UnityEngine;
 using System;
 using UnityEngine.VFX;
 
+public enum GunType : byte
+{
+    Revolver = 0,
+    ShotGun,
+    AssaultRifle
+}
+
 public class GunBase : MonoBehaviour
 {
     // 사정 거리
@@ -73,7 +80,7 @@ public class GunBase : MonoBehaviour
     /// <summary>
     /// 총 발사
     /// </summary>
-    private void Fire(bool isFireStart = true)
+    public void Fire(bool isFireStart = true)
     {
         // 발사 가능하고 총알이 남아있으면
         if (isFireReady && BulletCount > 0)
