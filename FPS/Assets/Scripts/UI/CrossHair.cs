@@ -9,20 +9,20 @@ public class CrossHair : MonoBehaviour
     [Tooltip("최대 확장 크기")]
     [SerializeField] private float maxExpend = 100.0f;
     [Tooltip("현재 확장되어 있는 길이(defaultExpend에서 얼마나 더 확장되었나)")]
-    [SerializeField] private float current = 0.0f;
+    private float current = 0.0f;
     [Tooltip("4방향 크로스헤어 이미지의 트랜스폼들")]
-    [SerializeField] private RectTransform[] crossRects;
+    private RectTransform[] crossRects;
     [Tooltip("각 크로스헤어 이미지의 이동 방향")]
-    [SerializeField] readonly Vector2[] direction = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
+    readonly Vector2[] direction = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
 
     [Tooltip("기본적으로 확장되어 있는 길이(부모에서 기본적으로 떨어져 있는 정도")]
-    [SerializeField] const float defaultExpend = 10.0f;
+    const float defaultExpend = 10.0f;
     [Tooltip("복구 되기 전에 딜레이 시간")]
-    [SerializeField] const float recoveryWaitTime = 0.1f;
+    const float recoveryWaitTime = 0.1f;
     [Tooltip("복구 되기 전에 걸리는 시간")]
-    [SerializeField] const float recoveryDuration = 0.5f;
+    const float recoveryDuration = 0.5f;
     [Tooltip("나누기를 자주하는 것을 피하기 위해 미리 계산해 놓은 것")]
-    const float divPreCompute = 1 / recoveryDuration;
+    private const float divPreCompute = 1 / recoveryDuration;
 
     private void Awake()
     {
