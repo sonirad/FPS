@@ -20,15 +20,24 @@ public class BulletCount : MonoBehaviour
     {
         Player player = GameManager.Instance.Player;
 
-        player.AddBulletCountChangeDelegate(OnBulletCountChane);
+        player.AddAmmoCountChangeDelegate(OnAmmoCountChane);
+
         player.onGunChange += OnGunChange;
     }
 
-    private void OnBulletCountChane(int count)
+    /// <summary>
+    /// 총알 갯수 변경 시 실행
+    /// </summary>
+    /// <param name="count"></param>
+    private void OnAmmoCountChane(int count)
     {
         current.text = count.ToString();
     }
 
+    /// <summary>
+    /// 총이 변경될 때 실행
+    /// </summary>
+    /// <param name="gun"></param>
     private void OnGunChange(GunBase gun)
     {
         max.text = gun.clipSize.ToString();

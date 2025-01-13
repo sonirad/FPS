@@ -11,7 +11,17 @@ public class ItemBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        // OnItemConsum ½ÇÇà
+        if (other.CompareTag("Player"))
+        {
+            Player player = other.GetComponent<Player>();
+
+            if (player != null)
+            {
+                OnItemConsum(player);
+                Destroy(this.gameObject);
+            }
+        }
     }
 
     /// <summary>

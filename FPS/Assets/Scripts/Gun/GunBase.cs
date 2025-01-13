@@ -42,9 +42,11 @@ public class GunBase : MonoBehaviour
     [Tooltip("총알이 발사되는 트랜스폼(플레이어의 카메라 위치)")]
     protected Transform fireTransform;
     [Tooltip("남은 총알 갯수가 변경되었음을 알리는 델리게이트(int : 남은 총알 갯수)")]
-    public Action<int> onBulletCountChange;
+    public Action<int> onAmmoCountChange;
     [Tooltip("총알이 한발 발사되었음을 알리는 델리게이트(float : 반동 정도)")]
     public Action<float> onFire;
+    [Tooltip("총알이 다 떨어졌음을 알리는 델리게이트")]
+    public Action onAmmoDepleted;
 
     [Tooltip("muzzle 이펙트 발동용")]
     readonly int onFireID = Shader.PropertyToID("OnFire");
@@ -57,7 +59,12 @@ public class GunBase : MonoBehaviour
         {
             bulletCount = value;
 
-            onBulletCountChange?.Invoke(bulletCount);    // 총알 갯수가 변경되었음을 알림
+            onAmmoCountChange?.Invoke(bulletCount);    // 총알 갯수가 변경되었음을 알림
+
+            if (bulletCount < 1)
+            {
+                onAmmoDepleted?.Invoke();
+            }
         }
     }
 
@@ -102,11 +109,11 @@ public class GunBase : MonoBehaviour
         // 머즐 이팩트 보여줌
         MuzzleEffectOn();
 
-        // 총알 갯수 감소
-        BulletCount--;
-
         // 일정 시간 후 자동으로 발사 가능하게 설정
         StartCoroutine(FireReady());
+
+        // 총알 갯수 감소
+        BulletCount--;
     }
 
     /// <summary>
