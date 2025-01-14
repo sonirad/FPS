@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Factory : Singleton<Factory>
 {
-    BulletHolePool bulletHolePool;
+    private BulletHolePool bulletHolePool;
+    private AssaultRiflePool assaultRiflePool;
+    private ShotgunPool shotgunPool;
+    private HealPackPool healPackPool;
 
     protected override void OnInitialize()
     {
@@ -10,6 +13,15 @@ public class Factory : Singleton<Factory>
 
         bulletHolePool = GetComponentInChildren<BulletHolePool>();
         bulletHolePool?.Initialze();
+
+        assaultRiflePool = GetComponentInChildren<AssaultRiflePool>();
+        assaultRiflePool?.Initialze();
+
+        shotgunPool = GetComponentInChildren<ShotgunPool>();
+        shotgunPool?.Initialze();
+
+        healPackPool = GetComponentInChildren<HealPackPool>();
+        healPackPool?.Initialze();
     }
 
     public BulletHole GetBulletHole()
@@ -24,5 +36,32 @@ public class Factory : Singleton<Factory>
         hole.Initialize(position, normal, reflect);
 
         return hole;
+    }
+
+    public GunItem GetAssaultRifleItem(Vector3 position)
+    {
+        GunItem item = assaultRiflePool?.GetObject();
+
+        item.transform.position = position;
+
+        return item;
+    }
+    
+    public GunItem GetShotgunItem(Vector3 position)
+    {
+        GunItem item = shotgunPool?.GetObject();
+
+        item.transform.position = position;
+
+        return item;
+    }
+
+    public HealItem GetHealPackItem(Vector3 position)
+    {
+        HealItem item = healPackPool?.GetObject();
+
+        item.transform.position = position;
+
+        return item;
     }
 }

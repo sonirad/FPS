@@ -16,8 +16,6 @@ public class Player : MonoBehaviour
     private GunBase[] guns;
     [Tooltip("현재 장비하고 있는 총")]
     private GunBase activeGun;
-    [Tooltip("기본 총(리볼버)")]
-    private GunBase defaultGun;
 
     [Tooltip("총이 변경되었음을 알리는 델리게이트")]
     public Action<GunBase> onGunChange;
@@ -30,9 +28,6 @@ public class Player : MonoBehaviour
         Transform child = transform.GetChild(3);
         // 모든 총 찾기
         guns = child.GetComponentsInChildren<GunBase>(true);
-
-        // 기본 총
-        defaultGun = guns[0];
     }
 
     private void Start()
@@ -52,7 +47,7 @@ public class Player : MonoBehaviour
         }
 
         // 기본 총 설정
-        activeGun = defaultGun;
+        activeGun = guns[0];
         // 기본 총 장비
         activeGun.Equip();
         // 총 변경 알림

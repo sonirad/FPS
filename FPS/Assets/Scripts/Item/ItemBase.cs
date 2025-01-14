@@ -2,12 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBase : MonoBehaviour
+public class ItemBase : RecycleObject
 {
     [Tooltip("1초에 회전하는 속도")]
     public float spinSpeed = 360.0f;
     [Tooltip("회전시킬 메시의 트랜스폼")]
     private Transform meshTransform;
+
+    private void Awake()
+    {
+        meshTransform = transform.GetChild(0);
+    }
+
+    private void Update()
+    {
+        meshTransform.Rotate(Time.deltaTime * spinSpeed * Vector3.up, Space.World);
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        // 30초 후에 자동으로 사라지기
+        StartCoroutine(LifeOver(30));
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +37,7 @@ public class ItemBase : MonoBehaviour
             if (player != null)
             {
                 OnItemConsum(player);
-                Destroy(this.gameObject);
+                gameObject.SetActive(false);
             }
         }
     }

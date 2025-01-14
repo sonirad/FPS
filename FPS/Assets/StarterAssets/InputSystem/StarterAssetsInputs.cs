@@ -104,22 +104,31 @@ namespace StarterAssets
             }
 			else
 			{
-                while (fov > normalFOV)
+                while (fov < normalFOV)
                 {
                     fov += Time.deltaTime * speed;
                     followCamera.m_Lens.FieldOfView = fov;
 
                     yield return null;
                 }
-            }
 
-            followCamera.m_Lens.FieldOfView = normalFOV;
+                followCamera.m_Lens.FieldOfView = normalFOV;
+            }
         }
 
         public void OnFire(InputAction.CallbackContext context)
         {
-			player.GunFire(!context.canceled);
-			Debug.Log("Fire");
+			//player.GunFire(!context.canceled);
+			// Debug.Log("Fire");
+
+			if (context.performed)
+			{
+				player.GunFire(true);
+			}
+			else if (context.canceled)
+			{
+				player.GunFire(false);
+			}
         }
 
         public void OnReload(InputAction.CallbackContext context)

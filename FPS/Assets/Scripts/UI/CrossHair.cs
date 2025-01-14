@@ -65,7 +65,7 @@ public class CrossHair : MonoBehaviour
 
         while (curveProcess < 1)       // curveProcess 가 1이 될 때까지 계속 진행
         {
-            curveProcess += Time.deltaTime / divPreCompute;              // recoveryDuration 기간에 맞춰서 curveProcess 진행
+            curveProcess += Time.deltaTime * divPreCompute;              // recoveryDuration 기간에 맞춰서 curveProcess 진행
             current = recoveryCurve.Evaluate(curveProcess) * startExpend;      // current 를 계산하기(커브 결과 * 최대치)
 
             for (int i = 0; i < crossRects.Length; i++)
