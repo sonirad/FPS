@@ -97,10 +97,10 @@ public class Enemy : MonoBehaviour
             if (state != value)
             {
                 // 이전 상태에서 나가기 처리 실행
-                OnStateExit(value);
+                OnStateExit(state);
                 state = value;
                 // 새 상태에 들어가기 실행
-                OnStateEnter(value);
+                OnStateEnter(state);
             }
         }
     }
@@ -125,12 +125,12 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        
+        onUpdate();
     }
 
     private void OnEnable()
@@ -154,25 +154,63 @@ public class Enemy : MonoBehaviour
     /// <param name="newState">새 상태</param>
     private void OnStateEnter(BehaviorState newState)
     {
-
+        switch (newState)
+        {
+            case BehaviorState.Wander:
+                onUpdate = Update_Wander;
+                agent.speed = walkSpeed;
+                agent.SetDestination(GetRandomDestination());
+                break;
+            case BehaviorState.Chase:
+                break;
+            case BehaviorState.Find:
+                break;
+            case BehaviorState.Attack:
+                break;
+            case BehaviorState.Dead:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
     /// 특정 상태에서 나갈 때의 처리를 실행
     /// </summary>
     /// <param name="newState">새 상태</param>
-    private void OnStateExit(BehaviorState newState)
+    private void OnStateExit(BehaviorState oldState)
     {
-
+        switch (oldState)
+        {
+            case BehaviorState.Wander:
+                break;
+            case BehaviorState.Chase:
+                break;
+            case BehaviorState.Find:
+                break;
+            case BehaviorState.Attack:
+                break;
+            case BehaviorState.Dead:
+                gameObject.SetActive(true);
+                HP = maxHP;
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
     /// 배회하기 위해 랜덤한 위치를 돌려줌.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>랜덤한 배회용 목적지</returns>
     private Vector3 GetRandomDestination()
     {
-        return Vector3.zero;
+        int range = 3;
+        Vector2Int current = MazelVisualizer.WorldToGrid(transform.position);
+        int x = UnityEngine.Random.Range(current.x - range, current.x + range + 1);
+        int y = UnityEngine.Random.Range(current.y - range, current.y + range + 1);
+
+        return MazelVisualizer.GridToWorld(x, y);
     }
 
     /// <summary>
@@ -226,9 +264,11 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 적을 리스폰
     /// </summary>
-    /// <param name="spawnPosition"></param>
+    /// <param name="spawnPosition">리스폰 할 위치</param>
     public void Respawn(Vector3 spawnPosition)
     {
+        agent.Warp(spawnPosition);
+
         State = BehaviorState.Wander;
     }
 
@@ -243,7 +283,10 @@ public class Enemy : MonoBehaviour
 
     private void Update_Wander()
     {
-
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            agent.SetDestination(GetRandomDestination());
+        }
     }
 
     private void Update_Chase()

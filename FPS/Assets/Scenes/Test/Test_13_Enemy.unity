@@ -703,7 +703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 549171158}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ReSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1573,6 +1573,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98d48a3cb5f27446b01180aee1ee876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: -1
+  enemy: {fileID: 4654430799175477714}
+  respawn: {fileID: 549171158}
 --- !u!1 &1452517457
 GameObject:
   m_ObjectHideFlags: 0
@@ -16365,6 +16368,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a51b62f13d561e4c97acc068f8905b0, type: 3}
+--- !u!114 &4654430799175477714 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1313280469849582572, guid: 5a51b62f13d561e4c97acc068f8905b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4654430799175477713}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7923b97d2f7cade4c840e1fa6d6b7d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

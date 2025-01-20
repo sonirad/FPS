@@ -53,11 +53,19 @@ public class MazelVisualizer : MonoBehaviour
     /// <param name="x">x 위치</param>
     /// <param name="y">y 위치</param>
     /// <returns></returns>
-    public Vector3 GridToWorld(int x, int y)
+    public static Vector3 GridToWorld(int x, int y)
     {
         float size = CellVisualizer.cellSize;
         float sizeHalf = size * 0.5f;
 
         return new(size * x + sizeHalf, size * -y - sizeHalf);
+    }
+
+    public static Vector2Int WorldToGrid(Vector3 world)
+    {
+        float size = CellVisualizer.cellSize;
+        Vector2Int result = new((int)(world.x / size), (int)(-world.z / size));
+
+        return result;
     }
 }

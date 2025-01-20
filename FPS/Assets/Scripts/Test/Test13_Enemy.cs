@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test13_Enemy : MonoBehaviour
+public class Test13_Enemy : TestBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Enemy enemy;
+    public Transform respawn;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        enemy.Respawn(respawn.position);
     }
 }

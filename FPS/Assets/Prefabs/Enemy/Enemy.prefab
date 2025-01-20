@@ -768,6 +768,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 30
   maxHP: 30
+  walkSpeed: 2
+  runSpeed: 7
+  sightAngle: 90
+  sightRange: 20
+  attackPower: 10
+  attackInterval: 1
+  findTime: 5
 --- !u!1 &6247028252429197093
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +853,7 @@ GameObject:
   - component: {fileID: 741689494229228974}
   - component: {fileID: 1124623685535140462}
   - component: {fileID: 4637604655531597844}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
