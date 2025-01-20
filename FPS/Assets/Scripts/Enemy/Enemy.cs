@@ -314,5 +314,10 @@ public class Enemy : MonoBehaviour
     {
         
     }
+
+    public Vector3 Test_GetRandomPosition()
+    {
+        return GetRandomDestination();
+    }
 #endif
 }

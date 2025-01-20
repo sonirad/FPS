@@ -58,7 +58,7 @@ public class MazelVisualizer : MonoBehaviour
         float size = CellVisualizer.cellSize;
         float sizeHalf = size * 0.5f;
 
-        return new(size * x + sizeHalf, size * -y - sizeHalf);
+        return new(size * x + sizeHalf, 0, size * -y - sizeHalf);
     }
 
     public static Vector2Int WorldToGrid(Vector3 world)
