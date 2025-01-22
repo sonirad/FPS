@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
 
     [Tooltip("총이 변경되었음을 알리는 델리게이트")]
     public Action<GunBase> onGunChange;
+    [Tooltip("플레이어가 죽었을 때 실행될 델리게이트")]
+    public Action onDie;
 
     private void Awake()
     {
@@ -114,5 +116,14 @@ public class Player : MonoBehaviour
         {
             gun.onAmmoCountChange += callback;
         }
+    }
+
+    /// <summary>
+    /// 공격을 받았을 때 실행
+    /// </summary>
+    /// <param name="enemy">공격을 한 적</param>
+    public void OnAttacked(Enemy enemy)
+    {
+
     }
 }
