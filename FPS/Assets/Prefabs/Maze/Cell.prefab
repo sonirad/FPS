@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 4855602360891327584}
   - component: {fileID: 6277882299071914865}
   - component: {fileID: 3338683253589735892}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: North
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5791798776395298826
 Transform:
@@ -117,12 +117,12 @@ GameObject:
   - component: {fileID: 1702006247390304375}
   - component: {fileID: 2197005455513079789}
   - component: {fileID: 3738651263844999151}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: West
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5154820341562380585
 Transform:
@@ -222,12 +222,12 @@ GameObject:
   - component: {fileID: 3536150133803888483}
   - component: {fileID: 1980456018494452418}
   - component: {fileID: 2738060947233998727}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: East
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1420805275938447653
 Transform:
@@ -378,7 +378,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4408853936594804952
 Transform:
@@ -480,7 +480,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4768732485299486867
 Transform:
@@ -513,12 +513,12 @@ GameObject:
   - component: {fileID: 3442267008701759747}
   - component: {fileID: 4336666105305903550}
   - component: {fileID: 1792784604460348703}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: South
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &31491302342406681
 Transform:

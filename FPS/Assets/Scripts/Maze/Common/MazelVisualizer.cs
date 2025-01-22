@@ -61,6 +61,11 @@ public class MazelVisualizer : MonoBehaviour
         return new(size * x + sizeHalf, 0, size * -y - sizeHalf);
     }
 
+    /// <summary>
+    /// 월드 좌표를 그리드 좌표로 변환하는 함수
+    /// </summary>
+    /// <param name="world">월드 좌표</param>
+    /// <returns>미로 상의 그리드 좌표</returns>
     public static Vector2Int WorldToGrid(Vector3 world)
     {
         float size = CellVisualizer.cellSize;
