@@ -775,6 +775,12 @@ MonoBehaviour:
   attackPower: 10
   attackInterval: 1
   findTime: 5
+  stateEyeColors:
+  - {r: 0, g: 4, b: 0.09530447, a: 0}
+  - {r: 4, g: 3.303353, b: 0, a: 0}
+  - {r: 0, g: 0.06759071, b: 4, a: 0}
+  - {r: 4, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6247028252429197093
 GameObject:
   m_ObjectHideFlags: 0

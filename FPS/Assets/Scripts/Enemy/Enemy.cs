@@ -81,8 +81,14 @@ public class Enemy : MonoBehaviour
     // 기타
     private NavMeshAgent agent;
 
+    // 눈 색상
     [Tooltip("상태별 적의 눈 색상")]
+    [ColorUsage(false, true)]
     public Color[] stateEyeColors;
+    [Tooltip("눈의 머터리얼")]
+    [SerializeField] private Material eyeMaterial;
+    [Tooltip("눈 색의 ID")]
+    readonly int EyeColorID = Shader.PropertyToID("_Eye_Color");
 
     [Tooltip("적의 현재 상태")]
     private BehaviorState state = BehaviorState.Dead;
@@ -144,6 +150,18 @@ public class Enemy : MonoBehaviour
             attackTarget.onDie += ReturnWander;
             State = BehaviorState.Attack;
         };
+
+        // root
+        child = transform.GetChild(0);
+        // head
+        child = child.GetChild(0);
+        // eye
+        child = child.GetChild(0);
+
+        Renderer eyeRenderer = child.GetComponent<Renderer>();
+
+        eyeMaterial = eyeRenderer.material;
+        eyeMaterial.SetColor(EyeColorID, stateEyeColors[(int)BehaviorState.Wander]); 
     }
 
     private void Update()
@@ -178,6 +196,8 @@ public class Enemy : MonoBehaviour
     /// <param name="newState">새 상태</param>
     private void OnStateEnter(BehaviorState newState)
     {
+        eyeMaterial.SetColor(EyeColorID, stateEyeColors[(int)newState]);
+
         switch (newState)
         {
             case BehaviorState.Wander:
