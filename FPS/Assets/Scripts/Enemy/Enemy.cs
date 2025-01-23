@@ -81,6 +81,9 @@ public class Enemy : MonoBehaviour
     // 기타
     private NavMeshAgent agent;
 
+    [Tooltip("상태별 적의 눈 색상")]
+    public Color[] stateEyeColors;
+
     [Tooltip("적의 현재 상태")]
     private BehaviorState state = BehaviorState.Dead;
     [Tooltip("각 상태가 되었을 때 상태별 업데이트 함수를 저장하는 델리게이트(함수포인터 역활)")]
@@ -138,7 +141,7 @@ public class Enemy : MonoBehaviour
         {
             attackTarget = target.GetComponent<Player>();
             // enemy는 리스폰으로 위치만 변경되고 객체가 사라지지 않으니 델리게이트에서 제거할 필요가 없음
-            attackTarget.onDie += () => State = BehaviorState.Wander;
+            attackTarget.onDie += ReturnWander;
             State = BehaviorState.Attack;
         };
     }
@@ -198,6 +201,13 @@ public class Enemy : MonoBehaviour
                 onUpdate = Update_Atttack;
                 break;
             case BehaviorState.Dead:
+                DropItem();
+
+                agent.speed = 0.0f;
+                agent.velocity = Vector3.zero;
+                // 스포너에게 부활 요청용
+                onDie?.Invoke(this);
+                gameObject.SetActive(false);
                 break;
             default:
                 break;
@@ -220,6 +230,7 @@ public class Enemy : MonoBehaviour
                 StopAllCoroutines();
                 break;
             case BehaviorState.Attack:
+                attackTarget.onDie -= ReturnWander;
                 attackTarget = null;
                 break;
             case BehaviorState.Dead:
@@ -253,6 +264,14 @@ public class Enemy : MonoBehaviour
         Debug.Log("플레이어 공격");
         // 피격 방향 표시를 위해 enemy 자체를 넘김
         attackTarget.OnAttacked(this);
+    }
+
+    /// <summary>
+    /// 공격 상태에서 배회 상태로 전환
+    /// </summary>
+    private void ReturnWander()
+    {
+        State = BehaviorState.Wander;
     }
 
     /// <summary>
@@ -446,6 +465,13 @@ public class Enemy : MonoBehaviour
     public Vector3 Test_GetRandomPosition()
     {
         return GetRandomDestination();
+    }
+
+    public void Test_StateChange(BehaviorState state)
+    {
+        State = state;
+        agent.speed = 0.0f;
+        agent.velocity = Vector3.zero;
     }
 #endif
 }
