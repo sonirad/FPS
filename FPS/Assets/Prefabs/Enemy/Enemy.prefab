@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1940658038855412827}
   - component: {fileID: 5082185825097958750}
   - component: {fileID: 4444026161825329317}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Leg_L
-  m_TagString: Untagged
+  m_TagString: Leg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,9 +117,9 @@ GameObject:
   - component: {fileID: 2717246091504855577}
   - component: {fileID: 106333408676227221}
   - component: {fileID: 8258684711961978453}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Arm_R
-  m_TagString: Untagged
+  m_TagString: Arm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,7 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1353604099427972799}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,9 +259,9 @@ GameObject:
   - component: {fileID: 3815680905890027006}
   - component: {fileID: 9019525446718053230}
   - component: {fileID: 2483041082410518048}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,9 +365,9 @@ GameObject:
   - component: {fileID: 3565343040576293742}
   - component: {fileID: 5269240829533739223}
   - component: {fileID: 931663701449849019}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Leg_R
-  m_TagString: Untagged
+  m_TagString: Leg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: 4233348477890381747}
   - component: {fileID: 8800136681323380018}
   - component: {fileID: 346894705937088659}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,9 +553,9 @@ GameObject:
   - component: {fileID: 1238882294949088605}
   - component: {fileID: 1214937361623180456}
   - component: {fileID: 9073093821593713863}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 4090229795677278061}
   - component: {fileID: 2513788030675576862}
   - component: {fileID: 1313280469849582572}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -781,6 +781,7 @@ MonoBehaviour:
   - {r: 0, g: 0.06759071, b: 4, a: 0}
   - {r: 4, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
+  eyeMaterial: {fileID: 0}
 --- !u!1 &6247028252429197093
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,7 +860,7 @@ GameObject:
   - component: {fileID: 741689494229228974}
   - component: {fileID: 1124623685535140462}
   - component: {fileID: 4637604655531597844}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -965,9 +966,9 @@ GameObject:
   - component: {fileID: 3716815309497879326}
   - component: {fileID: 380068858369918722}
   - component: {fileID: 8677335988720247091}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Arm_L
-  m_TagString: Untagged
+  m_TagString: Arm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

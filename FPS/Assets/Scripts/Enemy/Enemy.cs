@@ -86,12 +86,12 @@ public class Enemy : MonoBehaviour
     [ColorUsage(false, true)]
     public Color[] stateEyeColors;
     [Tooltip("눈의 머터리얼")]
-    [SerializeField] private Material eyeMaterial;
+    private Material eyeMaterial;
     [Tooltip("눈 색의 ID")]
     readonly int EyeColorID = Shader.PropertyToID("_Eye_Color");
 
     [Tooltip("적의 현재 상태")]
-    private BehaviorState state = BehaviorState.Dead;
+    [SerializeField] private BehaviorState state = BehaviorState.Dead;
     [Tooltip("각 상태가 되었을 때 상태별 업데이트 함수를 저장하는 델리게이트(함수포인터 역활)")]
     private Action onUpdate = null;
     [Tooltip("사망 시 실행될 델리게이트")]
@@ -202,17 +202,17 @@ public class Enemy : MonoBehaviour
         {
             case BehaviorState.Wander:
                 onUpdate = Update_Wander;
-                agent.speed = walkSpeed;
+                agent.speed = walkSpeed * (1 - speedPenalty);
                 agent.SetDestination(GetRandomDestination());
                 break;
             case BehaviorState.Chase:
                 onUpdate = Update_Chase;
-                agent.speed = runSpeed;
+                agent.speed = runSpeed * (1 - speedPenalty);
                 break;
             case BehaviorState.Find:
                 onUpdate = Update_Find;
                 findTimeElapsed = 0.0f;
-                agent.speed = walkSpeed;
+                agent.speed = walkSpeed * (1 - speedPenalty);
                 agent.angularSpeed = 360.0f;
 
                 StartCoroutine(LookAround());
@@ -301,7 +301,37 @@ public class Enemy : MonoBehaviour
     /// <param name="damage">데미지</param>
     public void OnAttacked(HitLocation hit, float damage)
     {
-        // 맞으면 즉시 추적에 돌입한다.
+        HP -= damage;
+
+        switch (hit)
+        {
+            case HitLocation.Body:
+                Debug.Log("몸통에 맞았다");
+                break;
+            case HitLocation.Head:
+                hp -= damage;
+                Debug.Log("머리에 맞았다");
+                break;
+            case HitLocation.Arm:
+                attackPowerPenalty += 0.1f;
+                Debug.Log("팔에 맞았다");
+                break;
+            case HitLocation.Leg:
+                speedPenalty += 0.3f;
+                Debug.Log("다리에 맞았다");
+                break;
+        }
+
+        if (State == BehaviorState.Wander || State == BehaviorState.Find)
+        {
+            // 맞으면 즉시 추적에 돌입한다
+            State = BehaviorState.Chase;
+            agent.SetDestination(GameManager.Instance.Player.transform.position);
+        }
+        else
+        {
+            agent.speed = runSpeed * (1 - speedPenalty);
+        }
     }
 
     /// <summary>
@@ -490,6 +520,12 @@ public class Enemy : MonoBehaviour
     public void Test_StateChange(BehaviorState state)
     {
         State = state;
+        agent.speed = 0.0f;
+        agent.velocity = Vector3.zero;
+    }
+
+    public void Test_EnemyStop()
+    {
         agent.speed = 0.0f;
         agent.velocity = Vector3.zero;
     }

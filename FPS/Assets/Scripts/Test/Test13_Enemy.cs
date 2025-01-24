@@ -31,4 +31,9 @@ public class Test13_Enemy : TestBase
         // ªÁ∏¡ : ∞À¡§
         enemy.Test_StateChange(behaviorState);
     }
+
+    protected override void OnTest3(InputAction.CallbackContext context)
+    {
+        enemy.Test_EnemyStop();
+    }
 }
