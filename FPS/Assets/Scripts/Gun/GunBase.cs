@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.VFX;
+using Unity.VisualScripting;
 
 public enum GunType : byte
 {
@@ -150,29 +151,32 @@ public class GunBase : MonoBehaviour
             if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 Enemy target = hitInfo.collider.GetComponentInParent<Enemy>();
-                HitLocation location = HitLocation.Body;
 
+                // 맞은 부위와 데미지 넘겨주기
                 if (hitInfo.collider.CompareTag("Head"))
                 {
-                    location = HitLocation.Head;
+                    target.OnAttacked(HitLocation.Head, damage);
                 }
                 else if (hitInfo.collider.CompareTag("Arm"))
                 {
-                    location = HitLocation.Arm;
+                    target.OnAttacked(HitLocation.Arm, damage);
                 }
                 else if (hitInfo.collider.CompareTag("Leg"))
                 {
-                    location = HitLocation.Leg;
+                    target.OnAttacked(HitLocation.Leg, damage);
                 }
-
-                // 맞은 부위와 데미지 넘겨주기
-                target.OnAttacked(location, damage);
+                else if (hitInfo.collider.CompareTag("Body"))
+                {
+                    target.OnAttacked(HitLocation.Body, damage);
+                }
             }
+            else
+            {
+                Vector3 reflect = Vector3.Reflect(ray.direction, hitInfo.normal);
 
-            Vector3 reflect = Vector3.Reflect(ray.direction, hitInfo.normal);
-
-            // 총알 구명 생성을 위해, 생성될 위치, 생성될 면의 노멀, 반사방향 전달
-            Factory.Instance.GetBulletHole(hitInfo.point, hitInfo.normal, reflect);
+                // 총알 구명 생성을 위해, 생성될 위치, 생성될 면의 노멀, 반사방향 전달
+                Factory.Instance.GetBulletHole(hitInfo.point, hitInfo.normal, reflect);
+            }
         }
     }
 

@@ -45,7 +45,14 @@ public class Player : MonoBehaviour
             // 조준선 확장 효과
             gun.onFire += (expend) => crossHair.Expend(expend * 10);
             // 총알이 다 떨어지면 기본 총으로 변경
-            gun.onAmmoDepleted += () => GunChange(GunType.Revolver);
+            gun.onAmmoDepleted += () =>
+            {
+                if (!(activeGun is Revolver))
+                {
+                    // 총알이 다 떨어지면 기본총으로 변경
+                    GunChange(GunType.Revolver);
+                }
+            };
         }
 
         // 기본 총 설정

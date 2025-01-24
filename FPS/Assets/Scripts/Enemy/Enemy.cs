@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 적이 드랍할 아이템의 종류를 나타내는 enum
     /// </summary>
-    private enum ItemTable : byte
+    public enum ItemTable : byte
     {
         Heal,      // 힐 아이템
         AssaultRifle,      // 돌격소총
@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
     readonly int EyeColorID = Shader.PropertyToID("_Eye_Color");
 
     [Tooltip("적의 현재 상태")]
-    [SerializeField] private BehaviorState state = BehaviorState.Dead;
+    private BehaviorState state = BehaviorState.Dead;
     [Tooltip("각 상태가 되었을 때 상태별 업데이트 함수를 저장하는 델리게이트(함수포인터 역활)")]
     private Action onUpdate = null;
     [Tooltip("사망 시 실행될 델리게이트")]
@@ -439,7 +439,27 @@ public class Enemy : MonoBehaviour
     /// <param name="table">드랍할 아이템</param>
     private void DropItem(ItemTable table = ItemTable.Random)
     {
+        ItemTable select = table;
 
+        if (table == ItemTable.Random)
+        {
+            float random = UnityEngine.Random.value;
+
+            if (random < 0.8f)
+            {
+                select = ItemTable.Heal;
+            }
+            else if (random < 0.9f)
+            {
+                select = ItemTable.AssaultRifle;
+            }
+            else
+            {
+                select = ItemTable.Shotgun;
+            }
+        }
+
+        Factory.Instance.GetDropItem(select, transform.position);
     }
 
     private void Update_Wander()

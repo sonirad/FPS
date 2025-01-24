@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,5 +36,10 @@ public class Test13_Enemy : TestBase
     protected override void OnTest3(InputAction.CallbackContext context)
     {
         enemy.Test_EnemyStop();
+    }
+
+    protected override void OnTest4(InputAction.CallbackContext context)
+    {
+        Factory.Instance.GetDropItem(Enemy.ItemTable.Shotgun, respawn.position);
     }
 }
