@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
+using System;
 
 [RequireComponent(typeof(MazelVisualizer))]
 [RequireComponent(typeof(NavMeshSurface))]
@@ -19,6 +20,13 @@ public class MazeGenerator : MonoBehaviour
     MazelVisualizer visualizer;
     NavMeshSurface navMeshSurface;
     AsyncOperation navAsync;
+    private Maze maze = null;
+
+    [Tooltip("생성한 미로")]
+    public Maze Maze => maze;
+
+    [Tooltip("미로 생성이 끝났음을 알리는 델리게이트")]
+    public Action onMazeGenerated;
 
     private void Awake()
     {
@@ -65,5 +73,8 @@ public class MazeGenerator : MonoBehaviour
         }
 
         Debug.Log("Nav Surface Update!");
+
+        // 오클루전 컬링도 새로 베이크 필요
+        onMazeGenerated?.Invoke();       // 미로 생성이 끝났음을 알림
     }
 }
