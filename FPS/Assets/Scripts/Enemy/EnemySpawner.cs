@@ -8,9 +8,16 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
     private int mazeWidth;
     private int mazeHeigth;
+    private Player player;
 
     private void Start()
     {
+        // 미로 크기 가져오기
+        mazeWidth = GameManager.Instance.MazeWidth;
+        mazeHeigth = GameManager.Instance.MazeHeight;
+
+        player = GameManager.Instance.Player;
+
         // 적 생성
         for (int i = 0; i < enemyCount; i++)
         {
@@ -23,9 +30,7 @@ public class EnemySpawner : MonoBehaviour
                 StartCoroutine(Respawn(target));
             };
 
-            // 미로 크기 가져오기
-            mazeWidth = GameManager.Instance.MazeWidth;
-            mazeHeigth = GameManager.Instance.MazeHeight;
+            enemy.Respawn(GetRandomSpawnPosition(true));
         }
     }
 
@@ -33,9 +38,37 @@ public class EnemySpawner : MonoBehaviour
     /// 플레이어 주변의 랜덤한 스폰 위치를 구함
     /// </summary>
     /// <returns>스폰 위치(미로 한칸의 셀의 가온데 지점)</returns>
-    private Vector3 GetRandomSpawnPosition()
+    private Vector3 GetRandomSpawnPosition(bool init = false)
     {
-        return Vector3.zero;
+        // 플레이어의 그리드 위치
+        Vector2Int playerPosition;
+
+        if (init)
+        {
+            // 플레이어가 정상적으로 있다는 보장이 없는 경우 그냥 미로의 가온데 위치
+            playerPosition = new(mazeWidth / 2, mazeHeigth / 2);
+        }
+        else
+        {
+            // 일반 플레이 중에는 플레이어의 그리드 위치
+            playerPosition = MazelVisualizer.WorldToGrid(player.transform.position);
+        }
+
+        int x;
+        int y;
+
+        do
+        {
+            // 플레이어 위치에서 +-5 범위 안이 걸릴 때까지 랜덤 돌리기
+            int index = Random.Range(0, mazeHeigth * mazeWidth);
+            x = index / mazeWidth;
+            y = index % mazeHeigth;
+        }
+        while (x < playerPosition.x + 5 && x > playerPosition.x - 5 && y < playerPosition.y + 5 && y > playerPosition.y - 5);
+
+        Vector3 world = MazelVisualizer.GridToWorld(x, y);
+
+        return world;
     }
 
     /// <summary>
