@@ -8,6 +8,6 @@ public class HealItem : ItemBase
 
     protected override void OnItemConsum(Player player)
     {
-
+        player.HP += heal;
     }
 }

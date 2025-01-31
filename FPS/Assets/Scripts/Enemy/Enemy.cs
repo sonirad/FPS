@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.AI;
-using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// 적이 맞을 수 있는 부위
@@ -145,10 +144,14 @@ public class Enemy : MonoBehaviour
 
         attackSensor.onSensorTriggered += (target) =>
         {
-            attackTarget = target.GetComponent<Player>();
-            // enemy는 리스폰으로 위치만 변경되고 객체가 사라지지 않으니 델리게이트에서 제거할 필요가 없음
-            attackTarget.onDie += ReturnWander;
-            State = BehaviorState.Attack;
+            // Attack 상태에서 한번만 실행
+            if (attackTarget == null)
+            {
+                attackTarget = target.GetComponent<Player>();
+                // enemy는 리스폰으로 위치만 변경되고 객체가 사라지지 않으니 델리게이트에서 제거할 필요가 없음
+                attackTarget.onDie += ReturnWander;
+                State = BehaviorState.Attack;
+            }
         };
 
         // root
@@ -256,6 +259,8 @@ public class Enemy : MonoBehaviour
             case BehaviorState.Dead:
                 gameObject.SetActive(true);
                 HP = maxHP;
+                speedPenalty = 0.0f;
+                attackPowerPenalty = 0.0f;
                 break;
             default:
                 break;

@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation.Samples;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -35,13 +36,16 @@ public class GameManager : Singleton<GameManager>
 
         mazeGenerator = FindAnyObjectByType<MazeGenerator>();
 
-        mazeGenerator.Generate(mazeWidth, mazeHeight);
-
-        mazeGenerator.onMazeGenerated += () =>
+        if (mazeGenerator != null)
         {
-            // 플레이어를 미로의 가온데 위치로 옮기기
-            Vector3 centerPos = MazelVisualizer.GridToWorld(mazeWidth / 2, mazeHeight / 2);
-            player.transform.position = centerPos;
-        };
+            mazeGenerator.Generate(mazeWidth, mazeHeight);
+
+            mazeGenerator.onMazeGenerated += () =>
+            {
+                // 플레이어를 미로의 가온데 위치로 옮기기
+                Vector3 centerPos = MazelVisualizer.GridToWorld(mazeWidth / 2, mazeHeight / 2);
+                player.transform.position = centerPos;
+            };
+        }
     }
 }
