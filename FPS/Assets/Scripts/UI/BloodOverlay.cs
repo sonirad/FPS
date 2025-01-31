@@ -10,6 +10,7 @@ public class BloodOverlay : MonoBehaviour
     public Color color = Color.clear;
     private Image image;
     private float inverseMaxHP;
+    private float targetAlpha = 0;
 
     private void Awake()
     {
@@ -25,9 +26,14 @@ public class BloodOverlay : MonoBehaviour
         inverseMaxHP = 1 / GameManager.Instance.Player.MaxHP;
     }
 
+    private void Update()
+    {
+        color.a = Mathf.Lerp(color.a, targetAlpha, Time.deltaTime);
+        image.color = color;
+    }
+
     private void OnHPChange(float health)
     {
-        color.a = curve.Evaluate(1 - (health * inverseMaxHP));
-        image.color = color;
+        targetAlpha = curve.Evaluate(1 - (health * inverseMaxHP));
     }
 }

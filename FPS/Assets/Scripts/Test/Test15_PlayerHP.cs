@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Test15_PlayerHP : TestBase
 {
-    [SerializeField] private Enemy enemy;
+    private Enemy enemy;
 
     private void Start()
     {

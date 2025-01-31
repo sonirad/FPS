@@ -20,9 +20,12 @@ public class MazeGenerator : MonoBehaviour
     MazelVisualizer visualizer;
     NavMeshSurface navMeshSurface;
     AsyncOperation navAsync;
-    private Maze maze = null;
-
     [Tooltip("생성한 미로")]
+    private Maze maze = null;
+    [Tooltip("미로의 골인 지점")]
+    private Goal goal;
+
+    [Tooltip("생성한 미로 프로퍼티")]
     public Maze Maze => maze;
 
     [Tooltip("미로 생성이 끝났음을 알리는 델리게이트")]
@@ -34,15 +37,8 @@ public class MazeGenerator : MonoBehaviour
         navMeshSurface = GetComponent<NavMeshSurface>();
     }
 
-    private void Update()
-    {
-        Debug.Log("Update");
-    }
-
     public void Generate(int width, int height)
     {
-        Maze maze = null;
-
         switch (mazeAlgorithm)
         {
             case MazeAlgorithm.RecursiveBackTracking:

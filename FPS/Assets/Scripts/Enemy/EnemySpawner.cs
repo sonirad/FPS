@@ -56,15 +56,24 @@ public class EnemySpawner : MonoBehaviour
 
         int x;
         int y;
+        int limit = 100;
 
         do
         {
             // 플레이어 위치에서 +-5 범위 안이 걸릴 때까지 랜덤 돌리기
-            int index = Random.Range(0, mazeHeigth * mazeWidth);
+            int index = Random.Range(0, mazeHeigth * mazeWidth);       // 미로 밖은 선택되지 않게 하기
             x = index / mazeWidth;
             y = index % mazeHeigth;
+
+            limit--;
+
+            // 최대 100번만 시도하기
+            if (limit < 1)
+            {
+                break;
+            }
         }
-        while (x < playerPosition.x + 5 && x > playerPosition.x - 5 && y < playerPosition.y + 5 && y > playerPosition.y - 5);
+        while (!(x < playerPosition.x + 5 && x > playerPosition.x - 5 && y < playerPosition.y + 5 && y > playerPosition.y - 5));
 
         Vector3 world = MazelVisualizer.GridToWorld(x, y);
 
