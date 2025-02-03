@@ -27,6 +27,7 @@ public class EnemySpawner : MonoBehaviour
 
             enemy.onDie += (target) =>
             {
+                GameManager.Instance.IncreaseKillCount();
                 StartCoroutine(Respawn(target));
             };
 

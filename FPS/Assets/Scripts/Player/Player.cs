@@ -183,4 +183,12 @@ public class Player : MonoBehaviour
         // 플레이어 오브젝트 비활성화
         gameObject.SetActive(false);
     }
+
+    /// <summary>
+    /// 입력을 막는 함수
+    /// </summary>
+    public void InputDisable()
+    {
+        starterAssets.enabled = false;
+    }
 }

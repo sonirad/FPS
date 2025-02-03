@@ -3,8 +3,20 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 public class Goal : MonoBehaviour
 {
+    [Tooltip("게임 클리어를 알리는 델리게이트")]
+    public System.Action onGameClear;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            onGameClear?.Invoke();
+        }
+    }
+
     public void SetRandomPosition(int width, int height)
     {
         // 랜덤으로 가장자리 Grid 위치 구하기

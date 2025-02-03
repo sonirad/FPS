@@ -15,6 +15,8 @@ public class Test16_Goal : TestBase
     protected override void OnTest2(InputAction.CallbackContext context)
     {
         Goal goal = FindAnyObjectByType<Goal>();
+        int size = GameManager.Instance.MazeWidth * GameManager.Instance.MazeHeight;
+        int[] counter = new int[size];
 
         for (int i = 0; i < 10000000; i++)
         {
@@ -24,9 +26,17 @@ public class Test16_Goal : TestBase
             {
                 Debug.Log("Not Valid");
             }
+
+            int index = result.x + result.y * GameManager.Instance.MazeWidth;
+            counter[index]++;
         }
 
         Debug.Log("Check complete");
+
+        for (int i = 0; i < size; i++)
+        {
+            Debug.Log($"{i} : {counter[i]}");
+        }
     }
 
     protected override void OnTest3(InputAction.CallbackContext context)
@@ -34,5 +44,12 @@ public class Test16_Goal : TestBase
         Goal goal = FindAnyObjectByType<Goal>();
 
         goal.SetRandomPosition(GameManager.Instance.MazeWidth, GameManager.Instance.MazeHeight);
+    }
+
+    protected override void OnTest4(InputAction.CallbackContext context)
+    {
+        Goal goal = FindAnyObjectByType<Goal>();
+
+        goal.onGameClear += () => Debug.Log("Goal In");
     }
 }
