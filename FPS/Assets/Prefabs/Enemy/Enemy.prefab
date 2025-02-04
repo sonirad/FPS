@@ -776,6 +776,7 @@ MonoBehaviour:
   attackInterval: 1
   findTime: 5
   stateEyeColors:
+  - {r: 1, g: 1.1, b: 1, a: 0}
   - {r: 0, g: 4, b: 0.09530447, a: 0}
   - {r: 4, g: 3.303353, b: 0, a: 0}
   - {r: 0, g: 0.06759071, b: 4, a: 0}

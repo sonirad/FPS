@@ -9,6 +9,12 @@ public class EnemySpawner : MonoBehaviour
     private int mazeWidth;
     private int mazeHeigth;
     private Player player;
+    private Enemy[] enemies;
+
+    private void Awake()
+    {
+        enemies = new Enemy[enemyCount];
+    }
 
     private void Start()
     {
@@ -18,12 +24,19 @@ public class EnemySpawner : MonoBehaviour
 
         player = GameManager.Instance.Player;
 
+        GameManager.Instance.onGameStart += EnemyAll_Play;
+        GameManager.Instance.onGameClear += EnemyAll_Stop;
+    }
+
+    public void EnemyAll_Spawn()
+    {
         // Àû »ý¼º
         for (int i = 0; i < enemyCount; i++)
         {
             GameObject obj = Instantiate(enemyPrefab, transform);
             obj.name = $"Enemy_{i}";
             Enemy enemy = obj.GetComponent<Enemy>();
+            enemies[i] = enemy;
 
             enemy.onDie += (target) =>
             {
@@ -32,6 +45,22 @@ public class EnemySpawner : MonoBehaviour
             };
 
             enemy.Respawn(GetRandomSpawnPosition(true));
+        }
+    }
+
+    private void EnemyAll_Play()
+    {
+        foreach (var enemy in enemies)
+        {
+            enemy.Play();
+        }
+    }
+
+    private void EnemyAll_Stop()
+    {
+        foreach (var enemy in enemies)
+        {
+            enemy.Stop();
         }
     }
 

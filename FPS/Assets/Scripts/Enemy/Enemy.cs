@@ -19,7 +19,8 @@ public class Enemy : MonoBehaviour
 {
     public enum BehaviorState : byte
     {
-        Wander = 0,      // 배회상태, 주변을 왔다갔다 한다.
+        Idle = 0,      // 대기상태, 제자리에서 가민히 있기
+        Wander,      // 배회상태, 주변을 왔다갔다 한다.
         Chase,         // 추척상태, 플레이어가 마지막으로 목격된 장소를 향해 계속 이동한다.
         Find,            // 탐색상태, 추적 도중에 플레이어가 시야에서 사라지면 주변을 찾는다.
         Attack,             // 공격상태, 플레이어가 일정범위 안에 들어오면 일정 주기로 공격한다.
@@ -164,7 +165,9 @@ public class Enemy : MonoBehaviour
         Renderer eyeRenderer = child.GetComponent<Renderer>();
 
         eyeMaterial = eyeRenderer.material;
-        eyeMaterial.SetColor(EyeColorID, stateEyeColors[(int)BehaviorState.Wander]); 
+        eyeMaterial.SetColor(EyeColorID, stateEyeColors[(int)BehaviorState.Wander]);
+
+        onUpdate = Udate_Idle;
     }
 
     private void Update()
@@ -203,6 +206,11 @@ public class Enemy : MonoBehaviour
 
         switch (newState)
         {
+            case BehaviorState.Idle:
+                onUpdate = Udate_Idle;
+                agent.speed = 0.0f;
+                // 공격 정지 시키기
+                break;
             case BehaviorState.Wander:
                 onUpdate = Update_Wander;
                 agent.speed = walkSpeed * (1 - speedPenalty);
@@ -435,7 +443,23 @@ public class Enemy : MonoBehaviour
     {
         agent.Warp(spawnPosition);
 
+        State = BehaviorState.Idle;
+    }
+
+    /// <summary>
+    /// 적을 움직이게 시작하게 만듬
+    /// </summary>
+    public void Play()
+    {
         State = BehaviorState.Wander;
+    }
+    
+    /// <summary>
+    /// 적을 안 움직이게 만듬
+    /// </summary>
+    public void Stop()
+    {
+        State = BehaviorState.Idle;
     }
 
     /// <summary>
@@ -465,6 +489,11 @@ public class Enemy : MonoBehaviour
         }
 
         Factory.Instance.GetDropItem(select, transform.position);
+    }
+
+    private void Udate_Idle()
+    {
+
     }
 
     private void Update_Wander()

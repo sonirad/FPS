@@ -1,6 +1,7 @@
 using StarterAssets;
 using UnityEngine;
 using System;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     public float MaxHP = 100.0f;
     [Tooltip("현재 HP")]
     private float hp;
+    [Tooltip("PlayerInput 컴포넌트")]
+    private PlayerInput playerInput;
 
     [Tooltip("총이 변경되었음을 알리는 델리게이트")]
     public Action<GunBase> onGunChange;
@@ -58,6 +61,7 @@ public class Player : MonoBehaviour
     {
         starterAssets = GetComponent<StarterAssetsInputs>();
         controller = GetComponent <FirstPersonController>();
+        playerInput = GetComponent<PlayerInput>();
         gunCamera = transform.GetChild(2).gameObject;
         Transform child = transform.GetChild(3);
         // 모든 총 찾기
@@ -95,6 +99,8 @@ public class Player : MonoBehaviour
         onGunChange?.Invoke(activeGun);
 
         HP = MaxHP;
+        // 게임이 클리어되면 입력 막기
+        GameManager.Instance.onGameClear += InputDisable;
     }
 
     /// <summary>
@@ -187,8 +193,9 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 입력을 막는 함수
     /// </summary>
-    public void InputDisable()
+    private void InputDisable()
     {
-        starterAssets.enabled = false;
+        // 액션맵이 1개만 있기 때문에 그냥 처리
+        playerInput.actions.actionMaps[0].Disable();
     }
 }
