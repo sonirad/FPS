@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
     [Tooltip("게임 시작을 알리는 델리게이트")]
     public Action onGameStart;
     [Tooltip("게임 종료을 알리는 델리게이트")]
-    public Action onGameClear;
+    public Action<bool> onGameEnd;
 
     private void Update()
     {
@@ -45,8 +45,11 @@ public class GameManager : Singleton<GameManager>
 
     protected override void OnInitialize()
     {
-        CrossHair crosshair = FindAnyObjectByType<CrossHair>();
         player = FindAnyObjectByType<Player>();
+        Vector3 centerPos = MazelVisualizer.GridToWorld(MazeWidth / 2, MazeHeight / 2);
+        // 플레이어를 미로의 가온데 위치로 옮기기
+        player.transform.position = centerPos;
+        player.onDie += GameOver;
         GameObject obj = GameObject.FindWithTag("Follow_Camera");
 
         if (obj != null)
@@ -66,9 +69,6 @@ public class GameManager : Singleton<GameManager>
                 // 적 스폰
                 spawner?.EnemyAll_Spawn();
 
-                // 플레이어를 미로의 가온데 위치로 옮기기
-                Vector3 centerPos = MazelVisualizer.GridToWorld(mazeWidth / 2, mazeHeight / 2);
-                player.transform.position = centerPos;
                 // 플레이 시간 초기화
                 playTime = 0;
                 // 킬 카운트 초기화
@@ -80,10 +80,12 @@ public class GameManager : Singleton<GameManager>
 
         resultPanel.gameObject.SetActive(false);
 
-        onGameClear += () =>
+        onGameEnd += (isClear) =>
         {
             // Time.timeSinceLevelLoad : 씬이 로딩되고 지난 시간
-            crosshair.gameObject.SetActive(false);     // 크로스 헤어 안 보이게 만들기
+            CrossHair crosshair = FindAnyObjectByType<CrossHair>();
+            // 크로스 헤어 안 보이게 만들기
+            crosshair.gameObject.SetActive(false);
             // 입력 막고
             resultPanel.Open(true, killCount, playTime);
         };
@@ -110,6 +112,14 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     public void GameClear()
     {
-        onGameClear?.Invoke();
+        onGameEnd?.Invoke(true);
+    }
+
+    /// <summary>
+    /// 게임 오버 시 실행
+    /// </summary>
+    public void GameOver()
+    {
+        onGameEnd?.Invoke(false);
     }
 }

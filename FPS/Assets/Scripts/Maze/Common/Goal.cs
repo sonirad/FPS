@@ -10,7 +10,7 @@ public class Goal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.onGameClear();
+            GameManager.Instance.GameClear();
         }
     }
 

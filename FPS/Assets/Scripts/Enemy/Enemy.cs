@@ -69,6 +69,8 @@ public class Enemy : MonoBehaviour
     private float attackElapsed = 0;
     [Tooltip("공격 패널티 정도")]
     private float attackPowerPenalty = 0;
+    [Tooltip("공격 범위 안에 들어왔는지 감지하는 센서")]
+    private AttackSensor attackSensor;
 
     // 탐색 관련
     [Tooltip("탐색 상태에서 배회 상태로 돌아가기까지 걸리는 시간")]
@@ -141,7 +143,7 @@ public class Enemy : MonoBehaviour
         SphereCollider sc = GetComponent<SphereCollider>();
         sc.radius = sightRange;
         Transform child = transform.GetChild(1);
-        AttackSensor attackSensor = child.GetComponent<AttackSensor>();
+        attackSensor = child.GetComponent<AttackSensor>();
 
         attackSensor.onSensorTriggered += (target) =>
         {
@@ -192,7 +194,8 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Out : " + chaseTarget);
+            // Debug.Log("Out : " + chaseTarget);
+            chaseTarget = null;
         }
     }
 
@@ -209,6 +212,7 @@ public class Enemy : MonoBehaviour
             case BehaviorState.Idle:
                 onUpdate = Udate_Idle;
                 agent.speed = 0.0f;
+                attackSensor.gameObject.SetActive(false);
                 // 공격 정지 시키기
                 break;
             case BehaviorState.Wander:
@@ -253,8 +257,10 @@ public class Enemy : MonoBehaviour
     {
         switch (oldState)
         {
-            //case BehaviorState.Wander:
-            //case BehaviorState.Chase:
+            case BehaviorState.Idle:
+                agent.speed = walkSpeed;
+                attackSensor.gameObject.SetActive(true);
+                break;
             case BehaviorState.Find:
                 agent.angularSpeed = 120.0f;
 
@@ -271,6 +277,8 @@ public class Enemy : MonoBehaviour
                 attackPowerPenalty = 0.0f;
                 break;
             default:
+                //case BehaviorState.Wander:
+                //case BehaviorState.Chase:
                 break;
         }
     }
@@ -439,11 +447,19 @@ public class Enemy : MonoBehaviour
     /// 적을 리스폰
     /// </summary>
     /// <param name="spawnPosition">리스폰 할 위치</param>
-    public void Respawn(Vector3 spawnPosition)
+    /// <param name="init">첫 생성 여부(T : 첫번째 리스폰)</param>
+    public void Respawn(Vector3 spawnPosition, bool init = false)
     {
         agent.Warp(spawnPosition);
 
-        State = BehaviorState.Idle;
+        if (init)
+        {
+            State = BehaviorState.Idle;
+        }
+        else
+        {
+            State = BehaviorState.Wander;
+        }
     }
 
     /// <summary>
@@ -544,7 +560,13 @@ public class Enemy : MonoBehaviour
     {
         // 한번 공격 상태에 들어가면 끝까지 쫓아온다.
         agent.SetDestination(attackTarget.transform.position);
+        
+        // 적이 플레이어 바라보게 만들기
+        Quaternion target = Quaternion.LookRotation(attackTarget.transform.position - transform.position);
+        // 적이 플레이어를 바라보는 회전
+        transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime);
 
+        // 적이 공격하기
         attackElapsed += Time.deltaTime;
 
         if (attackElapsed > attackInterval)

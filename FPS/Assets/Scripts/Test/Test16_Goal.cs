@@ -7,9 +7,9 @@ public class Test16_Goal : TestBase
 {
     private void Start()
     {
-        Goal goal = FindAnyObjectByType<Goal>();
+        // Goal goal = FindAnyObjectByType<Goal>();
 
-        goal.SetRandomPosition(GameManager.Instance.MazeWidth, GameManager.Instance.MazeHeight);
+        // goal.SetRandomPosition(GameManager.Instance.MazeWidth, GameManager.Instance.MazeHeight);
     }
 
     protected override void OnTest1(InputAction.CallbackContext context)
@@ -55,7 +55,7 @@ public class Test16_Goal : TestBase
 
     protected override void OnTest4(InputAction.CallbackContext context)
     {
-        GameManager.Instance.onGameClear += () => Debug.Log("Goal In");
+        GameManager.Instance.onGameEnd += (_) => Debug.Log("Goal In");
     }
 
     protected override void OnTest5(InputAction.CallbackContext context)

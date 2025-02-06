@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
 
         HP = MaxHP;
         // 게임이 클리어되면 입력 막기
-        GameManager.Instance.onGameClear += InputDisable;
+        GameManager.Instance.onGameEnd += (_) => InputDisable();
     }
 
     /// <summary>

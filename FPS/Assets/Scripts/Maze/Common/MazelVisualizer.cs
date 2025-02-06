@@ -7,6 +7,8 @@ public class MazelVisualizer : MonoBehaviour
 {
     [Tooltip("셀의 프리펩")]
     public GameObject cellPrefab;
+    [Tooltip("골의 프리펩")]
+    public GameObject goalPrefab;
 
     /// <summary>
     /// 파라미터로 받은 미로를 그린다
@@ -26,9 +28,13 @@ public class MazelVisualizer : MonoBehaviour
             CellVisualizer cellVisualizer = obj.GetComponent<CellVisualizer>();
 
             cellVisualizer.RefreshWall(cell.Path);
-
-            Debug.Log("미로 그리기 완");
         }
+
+        GameObject goalObj = Instantiate(goalPrefab, transform);
+        Goal goal = goalObj.GetComponent<Goal>();
+
+        goal.SetRandomPosition(maze.Width, maze.Height);
+        Debug.Log("미로 비주얼라이저 그리기 완");
     }
 
     /// <summary>

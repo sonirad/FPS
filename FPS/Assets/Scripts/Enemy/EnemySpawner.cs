@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
         player = GameManager.Instance.Player;
 
         GameManager.Instance.onGameStart += EnemyAll_Play;
-        GameManager.Instance.onGameClear += EnemyAll_Stop;
+        GameManager.Instance.onGameEnd += (_) => EnemyAll_Stop();
     }
 
     public void EnemyAll_Spawn()
@@ -44,22 +44,30 @@ public class EnemySpawner : MonoBehaviour
                 StartCoroutine(Respawn(target));
             };
 
-            enemy.Respawn(GetRandomSpawnPosition(true));
+            enemy.Respawn(GetRandomSpawnPosition(true), true);
         }
     }
 
+    /// <summary>
+    /// 모든 적 움직이게 만들기
+    /// </summary>
     private void EnemyAll_Play()
     {
         foreach (var enemy in enemies)
         {
+            // wander 상태로 변경
             enemy.Play();
         }
     }
 
+    /// <summary>
+    /// 모든 적을 일시정지 시키기(이동, 공격)
+    /// </summary>
     private void EnemyAll_Stop()
     {
         foreach (var enemy in enemies)
         {
+            // 대기상태로 변경
             enemy.Stop();
         }
     }
