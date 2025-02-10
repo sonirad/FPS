@@ -18,6 +18,7 @@ public class MazelVisualizer : MonoBehaviour
     {
         float size = CellVisualizer.cellSize;
 
+        // 기본 벽 처리
         foreach (var cell in maze.Cells)
         {
             GameObject obj = Instantiate(cellPrefab, transform);
@@ -30,6 +31,10 @@ public class MazelVisualizer : MonoBehaviour
             cellVisualizer.RefreshWall(cell.Path);
         }
 
+        // 코너 마감
+        // ~ 필요한 코너만 남겨 놓기
+
+        // 골 지점 추가
         GameObject goalObj = Instantiate(goalPrefab, transform);
         Goal goal = goalObj.GetComponent<Goal>();
 

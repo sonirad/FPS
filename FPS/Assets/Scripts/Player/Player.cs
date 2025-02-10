@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public Action<float> onAttacked;
     [Tooltip("HP가 변경되었을 때 실행될 델리게이트(float : 현재 HP)")]
     public Action<float> onHPChange;
+    [Tooltip("플레이어가 맵의 가운데 배치되었을 때 실행 될 델리게이트")]
+    public Action onSpawn;
 
     [Tooltip("현재 HP 확인 및 설정용 프로퍼티")]
     public float HP
@@ -101,6 +103,8 @@ public class Player : MonoBehaviour
         HP = MaxHP;
         // 게임이 클리어되면 입력 막기
         GameManager.Instance.onGameEnd += (_) => InputDisable();
+
+        Spawn();
     }
 
     /// <summary>
@@ -177,6 +181,16 @@ public class Player : MonoBehaviour
 
         onAttacked?.Invoke(-angle);
         HP -= enemy.attackPower;
+    }
+
+    public void Spawn()
+    {
+        GameManager gameManager = GameManager.Instance;
+        Vector3 centerPos = MazelVisualizer.GridToWorld(gameManager.MazeWidth / 2, gameManager.MazeHeight / 2);
+        // 플레이어를 미로의 가온데 위치로 옮기기
+        transform.position = centerPos;
+
+        onSpawn?.Invoke();
     }
 
     /// <summary>

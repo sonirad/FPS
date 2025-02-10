@@ -46,9 +46,6 @@ public class GameManager : Singleton<GameManager>
     protected override void OnInitialize()
     {
         player = FindAnyObjectByType<Player>();
-        Vector3 centerPos = MazelVisualizer.GridToWorld(MazeWidth / 2, MazeHeight / 2);
-        // 플레이어를 미로의 가온데 위치로 옮기기
-        player.transform.position = centerPos;
         player.onDie += GameOver;
         GameObject obj = GameObject.FindWithTag("Follow_Camera");
 
