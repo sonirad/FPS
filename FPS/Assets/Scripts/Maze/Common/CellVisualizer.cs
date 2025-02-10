@@ -7,7 +7,8 @@ public class CellVisualizer : MonoBehaviour
     [Tooltip("셀 한변의 크기")]
     public const float cellSize = 10f;
 
-    GameObject[] walls;
+    private GameObject[] walls;
+    private GameObject[] corners;
 
     private void Awake()
     {
@@ -17,6 +18,14 @@ public class CellVisualizer : MonoBehaviour
         for (int i = 0; i < walls.Length; i++)
         {
             walls[i] = child.GetChild(i).gameObject;
+        }
+
+        child = transform.GetChild(2);
+        corners = new GameObject[child.childCount];
+
+        for (int i = 0; i < corners.Length; i++)
+        {
+            corners[i] = child.GetChild(1).gameObject;
         }
     }
 
@@ -33,6 +42,20 @@ public class CellVisualizer : MonoBehaviour
             int mask = 1 << i;
 
             walls[i].SetActive(!((data & mask) != 0));     // 순서대로 마스크를 생성한 후 & 연산으로 결과 확인
+        }
+    }
+
+    /// <summary>
+    /// 입력받은 데이터에 맞게 코너의 활성화 여부 재설정
+    /// </summary>
+    /// <param name="data"></param>
+    public void RefreshCorner(int data)
+    {
+        for (int i = 0; i < corners.Length; i++)
+        {
+            int mask = 1 << i;
+
+            corners[i].SetActive((data & mask) != 0);
         }
     }
 

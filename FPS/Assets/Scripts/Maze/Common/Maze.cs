@@ -105,4 +105,17 @@ public class Maze
     {
         return grid.x + grid.y * width;
     }
+
+    /// <summary>
+    /// 특정 그리드 좌표의 셀을 리턴
+    /// </summary>
+    /// <param name="x">셀의 그리드 x 위치</param>
+    /// <param name="y">셀의 그리드 y 위치</param>
+    /// <returns>(x, y) 위치에 있는 셀</returns>
+    public Cell GetCell(int x, int y)
+    {
+        int index = GridToIndex(x, y);
+
+        return cells[index];
+    }
 }
