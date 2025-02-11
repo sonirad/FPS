@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.AI.Navigation.Samples;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -47,6 +48,10 @@ public class GameManager : Singleton<GameManager>
     {
         player = FindAnyObjectByType<Player>();
         player.onDie += GameOver;
+        LoadingScreen loadingScreen = FindAnyObjectByType<LoadingScreen>();
+
+        loadingScreen.Initialize();
+
         GameObject obj = GameObject.FindWithTag("Follow_Camera");
 
         if (obj != null)
@@ -55,6 +60,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         spawner = FindAnyObjectByType<EnemySpawner>();
+        spawner.onSpawnCompleted += () => loadingScreen.OnLoadingProgress(1.0f);
         mazeGenerator = FindAnyObjectByType<MazeGenerator>();
 
         if (mazeGenerator != null)
@@ -63,6 +69,7 @@ public class GameManager : Singleton<GameManager>
 
             mazeGenerator.onMazeGenerated += () =>
             {
+                loadingScreen.OnLoadingProgress(0.7f);
                 // Àû ½ºÆù
                 spawner?.EnemyAll_Spawn();
 
