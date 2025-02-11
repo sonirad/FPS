@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class EnemySpawner : MonoBehaviour
     private int mazeHeigth;
     private Player player;
     private Enemy[] enemies;
+
+    public Action onSpawnCompleted;
 
     private void Awake()
     {
@@ -46,6 +49,9 @@ public class EnemySpawner : MonoBehaviour
 
             enemy.Respawn(GetRandomSpawnPosition(true), true);
         }
+
+        // 스폰이 완료되면 알림
+        onSpawnCompleted?.Invoke();
     }
 
     /// <summary>
@@ -95,11 +101,12 @@ public class EnemySpawner : MonoBehaviour
         int x;
         int y;
         int limit = 100;
+        float halfSize = Mathf.Min(mazeWidth, mazeHeigth) * 0.5f;
 
         do
         {
             // 플레이어 위치에서 +-5 범위 안이 걸릴 때까지 랜덤 돌리기
-            int index = Random.Range(0, mazeHeigth * mazeWidth);       // 미로 밖은 선택되지 않게 하기
+            int index = UnityEngine.Random.Range(0, mazeHeigth * mazeWidth);       // 미로 밖은 선택되지 않게 하기
             x = index / mazeWidth;
             y = index % mazeHeigth;
 
@@ -111,7 +118,9 @@ public class EnemySpawner : MonoBehaviour
                 break;
             }
         }
-        while (!(x < playerPosition.x + 5 && x > playerPosition.x - 5 && y < playerPosition.y + 5 && y > playerPosition.y - 5));
+        while (!(x < playerPosition.x + halfSize && x > playerPosition.x - halfSize 
+        && y < playerPosition.y + halfSize
+        && y > playerPosition.y - halfSize));
 
         Vector3 world = MazelVisualizer.GridToWorld(x, y);
 
