@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
 using System;
@@ -68,7 +67,7 @@ public class MazeGenerator : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Nav Surface Update!");
+        // Debug.Log("Nav Surface Update!");
 
         // 오클루전 컬링도 새로 베이크 필요
         onMazeGenerated?.Invoke();       // 미로 생성이 끝났음을 알림

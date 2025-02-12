@@ -33,6 +33,7 @@ namespace StarterAssets
 
 		[Tooltip("플레이어")]
 		private Player player;
+		private bool isGameEnd = false;
 
         private void Awake()
         {
@@ -42,6 +43,7 @@ namespace StarterAssets
         private void Start()
         {
 			followCamera = GameManager.Instance.FollowCamera;
+			GameManager.Instance.onGameEnd += (_) => isGameEnd = true;
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -187,8 +189,11 @@ namespace StarterAssets
 		
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			SetCursorState(cursorLocked);
-		}
+			if (!isGameEnd)
+			{
+                SetCursorState(cursorLocked);
+            }
+        }
 
 		private void SetCursorState(bool newState)
 		{

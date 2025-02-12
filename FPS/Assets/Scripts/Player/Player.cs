@@ -52,8 +52,6 @@ public class Player : MonoBehaviour
             // HP 최대 최소 안 벗어나게 만들기
             hp = Mathf.Clamp(hp, 0, MaxHP);
 
-            Debug.Log($"HP : {hp}");
-
             // HP 변화 알리기
             onHPChange?.Invoke(hp);
         }
@@ -190,6 +188,7 @@ public class Player : MonoBehaviour
         // 플레이어를 미로의 가온데 위치로 옮기기
         transform.position = centerPos;
 
+        Debug.Log("Player Pos : " + centerPos);
         onSpawn?.Invoke();
     }
 

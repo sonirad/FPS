@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 
 public class MazelVisualizer : MonoBehaviour
@@ -80,7 +78,7 @@ public class MazelVisualizer : MonoBehaviour
         Goal goal = goalObj.GetComponent<Goal>();
 
         goal.SetRandomPosition(maze.Width, maze.Height);
-        Debug.Log("미로 비주얼라이저 그리기 완");
+        // Debug.Log("미로 비주얼라이저 그리기 완");
     }
 
     /// <summary>
@@ -96,7 +94,7 @@ public class MazelVisualizer : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        Debug.Log("미로 비주얼라이저 초기화");
+        // Debug.Log("미로 비주얼라이저 초기화");
     }
 
     /// <summary>

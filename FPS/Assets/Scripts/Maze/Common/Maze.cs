@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Maze
@@ -33,9 +31,10 @@ public class Maze
 
         cells = new Cell[Width * Height];
 
-        OnSpecificAlgorithExcute();    // 각 알로리즘 별 코드 실행
+        // 각 알로리즘 별 코드 실행
+        OnSpecificAlgorithExcute();
 
-        Debug.Log("미로 만들기 완료");
+        // Debug.Log("미로 만들기 완료");
     }
 
     /// <summary>

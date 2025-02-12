@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class LoadingScreen : MonoBehaviour
     private TextMeshProUGUI loadingText;
     private TextMeshProUGUI completeText;
     private TextMeshProUGUI pressText;
+    private Player_Input_Actions inputActions;
 
     private string[] loadingString =
     {
@@ -35,6 +36,7 @@ public class LoadingScreen : MonoBehaviour
 
     private void Awake()
     {
+        inputActions = new Player_Input_Actions();
         Transform child = transform.GetChild(0);
         loadingText = child.GetComponent<TextMeshProUGUI>();
         child = transform.GetChild(1);
@@ -49,6 +51,17 @@ public class LoadingScreen : MonoBehaviour
     private void Update()
     {
         CurrentProgress += Time.deltaTime;
+    }
+
+    private void OnEnable()
+    {
+        inputActions.UI.Any_Key.performed += OnAnyKey;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.UI.Any_Key.performed -= OnAnyKey;
+        inputActions.UI.Disable();
     }
 
     public void Initialize()
@@ -75,7 +88,7 @@ public class LoadingScreen : MonoBehaviour
     public void OnLoadingProgress(float progress)
     {
         targetProgress = progress;
-        Debug.Log($"Progress : {progress}");
+        // Debug.Log($"Progress : {progress}");
     }
 
     private void OnLoadingComplete()
@@ -87,5 +100,13 @@ public class LoadingScreen : MonoBehaviour
         slider.value = 1;
 
         StopAllCoroutines();
+        inputActions.UI.Enable();
+    }
+
+    private void OnAnyKey(InputAction.CallbackContext context)
+    {
+        this.gameObject.SetActive(false);
+        GameManager.Instance.GameStart();
+        Debug.Log("Any Key");
     }
 }
