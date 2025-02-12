@@ -43,7 +43,6 @@ public class GameManager : Singleton<GameManager>
 
     protected override void OnInitialize()
     {
-        player = FindAnyObjectByType<Player>();
         player.onDie += GameOver;
         LoadingScreen loadingScreen = FindAnyObjectByType<LoadingScreen>();
 
@@ -57,7 +56,13 @@ public class GameManager : Singleton<GameManager>
         }
 
         spawner = FindAnyObjectByType<EnemySpawner>();
-        spawner.onSpawnCompleted += () => loadingScreen.OnLoadingProgress(1.0f);
+        spawner.onSpawnCompleted += () =>
+        {
+            loadingScreen.OnLoadingProgress(1.0f);
+            // 적 스폰이 끝나면 플레이어 스폰
+            player.Spawn();
+        };
+
         mazeGenerator = FindAnyObjectByType<MazeGenerator>();
 
         if (mazeGenerator != null)

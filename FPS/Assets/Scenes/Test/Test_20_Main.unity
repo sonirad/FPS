@@ -203,6 +203,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1238007526605970473, guid: 14803218b485d7440b9f63761c35b8dc,
+        type: 3}
+      propertyPath: mazeWidth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1238007526605970473, guid: 14803218b485d7440b9f63761c35b8dc,
+        type: 3}
+      propertyPath: mazeHeight
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3017541503938659917, guid: 14803218b485d7440b9f63761c35b8dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1055,6 +1065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c73bbb9a89f59f45a9da313ad8e5bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: -1
 --- !u!1001 &1958618440
 PrefabInstance:
   m_ObjectHideFlags: 0

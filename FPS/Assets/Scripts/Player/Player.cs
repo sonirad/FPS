@@ -101,8 +101,6 @@ public class Player : MonoBehaviour
         HP = MaxHP;
         // 게임이 클리어되면 입력 막기
         GameManager.Instance.onGameEnd += (_) => InputDisable();
-
-        Spawn();
     }
 
     /// <summary>
@@ -188,7 +186,6 @@ public class Player : MonoBehaviour
         // 플레이어를 미로의 가온데 위치로 옮기기
         transform.position = centerPos;
 
-        Debug.Log("Player Pos : " + centerPos);
         onSpawn?.Invoke();
     }
 

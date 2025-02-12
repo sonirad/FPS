@@ -28,6 +28,7 @@ public class MinimapCamera : MonoBehaviour
         // 플레이어가 0, 0, 0이어서 별다른 계산 안함
         offset = transform.position;
         target = player.transform;
+        transform.position = target.position + offset;
 
         player.onSpawn += () =>
         {
