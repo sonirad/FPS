@@ -588,6 +588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c994e98f8ab17b44e96446f89851add8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mazeWidth: 20
+  mazeHeight: 20
 --- !u!4 &471138973
 Transform:
   m_ObjectHideFlags: 0
@@ -1135,7 +1137,7 @@ PrefabInstance:
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.375
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
@@ -7123,6 +7125,12 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 3623965251221620547, guid: 370d11183aa830a48a2666b549fb80c7,
+        type: 3}
+      propertyPath: goalPrefab
+      value: 
+      objectReference: {fileID: 2013267791854318134, guid: 4b980c35a0d470b4981be61ae0419df8,
+        type: 3}
     - target: {fileID: 3625079491552722195, guid: 370d11183aa830a48a2666b549fb80c7,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -15630,7 +15638,7 @@ PrefabInstance:
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.375
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74,
         type: 3}
@@ -15925,6 +15933,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7076778768571385329, guid: 8cc804f29b212864c80b4e93e6a881c0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7644209126968272181, guid: 8cc804f29b212864c80b4e93e6a881c0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16078,8 +16091,8 @@ SceneRoots:
   - {fileID: 746329221}
   - {fileID: 910502680}
   - {fileID: 471138973}
-  - {fileID: 2132167338}
-  - {fileID: 1537906170}
-  - {fileID: 4654430799175477713}
   - {fileID: 2465778}
+  - {fileID: 2132167338}
+  - {fileID: 4654430799175477713}
+  - {fileID: 1537906170}
   - {fileID: 1441227623}

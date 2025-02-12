@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Test16_Goal : TestBase
 {
+#if UNITY_EDITOR
     private void Start()
     {
         // Goal goal = FindAnyObjectByType<Goal>();
@@ -62,4 +63,5 @@ public class Test16_Goal : TestBase
     {
         GameManager.Instance.GameStart();
     }
+#endif
 }

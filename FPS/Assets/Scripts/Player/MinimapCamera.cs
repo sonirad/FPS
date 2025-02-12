@@ -24,22 +24,11 @@ public class MinimapCamera : MonoBehaviour
     private void Start()
     {
         zoomTarget = zoomMin;
-        Player player = GameManager.Instance.Player;
-        // 플레이어가 0, 0, 0이어서 별다른 계산 안함
-        offset = transform.position;
-        target = player.transform;
-        transform.position = target.position + offset;
-
-        player.onSpawn += () =>
-        {
-            transform.position = target.position + offset;
-            transform.rotation = Quaternion.Euler(90, target.eulerAngles.y, 0);
-        };
     }
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.transform.position, target.position + offset, Time.deltaTime * smooth);
+        transform.position = Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * smooth);
         transform.rotation = Quaternion.Euler(90, target.eulerAngles.y, 0);
         minimapCamera.orthographicSize = Mathf.Lerp(minimapCamera.orthographicSize, zoomTarget, Time.deltaTime);
     }
@@ -58,6 +47,20 @@ public class MinimapCamera : MonoBehaviour
         uiActions.UI.Minimap_ZoomOut.performed -= OnZoomOut;
 
         uiActions.UI.Disable();
+    }
+
+    public void Initialize(Player player)
+    {
+        // 플레이어가 0, 0, 0이어서 별다른 계산 안함
+        offset = transform.position;
+        target = player.transform;
+        transform.position = target.position + offset;
+
+        player.onSpawn += () =>
+        {
+            transform.position = target.position + offset;
+            transform.rotation = Quaternion.Euler(90, target.eulerAngles.y, 0);
+        };
     }
 
     private void OnZoomIn(UnityEngine.InputSystem.InputAction.CallbackContext context)

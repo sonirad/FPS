@@ -7,6 +7,7 @@ public class Test15_PlayerHP : TestBase
 {
     private Enemy enemy;
 
+#if UNITY_EDITOR
     private void Start()
     {
         if (enemy == null)
@@ -36,4 +37,5 @@ public class Test15_PlayerHP : TestBase
         // Player HP ¡ı∞°
         GameManager.Instance.Player.HP += 10;
     }
+#endif
 }

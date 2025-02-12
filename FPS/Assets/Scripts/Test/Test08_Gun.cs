@@ -9,6 +9,7 @@ public class Test08_Gun : TestBase
     public Shotgun shotgun;
     public AssaultRifle assaultRifle;
 
+#if UNITY_EDITOR
     protected override void OnTest1(InputAction.CallbackContext context)
     {
         revolver.Test_Fire();
@@ -32,4 +33,5 @@ public class Test08_Gun : TestBase
         assaultRifle.Test_Fire(!context.canceled);
         Debug.Log("어썰트 라이플 발사 완료");
     }
+#endif
 }
